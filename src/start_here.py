@@ -85,7 +85,7 @@ fixed_frame = 'base_link'
 #                'LEFT_WRIST_PITCH', 'LEFT_WRIST_YAW_2'] ]
 #   example 2 shows what this would be for a single end-effector robot, specifically using the UR5 robot
 #   ex2: [ ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'] ]
-joint_names = [ ]
+joint_names = [ ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint'] ]
 ######################################################################################################
 
 
@@ -105,7 +105,7 @@ joint_names = [ ]
 #   ex1: [ 'WAIST', 'RIGHT_SHOULDER_PITCH', 'RIGHT_SHOULDER_ROLL', 'RIGHT_SHOULDER_YAW', 'RIGHT_ELBOW', 'RIGHT_WRIST_YAW',
 #               'RIGHT_WRIST_PITCH', 'RIGHT_WRIST_YAW_2','LEFT_SHOULDER_PITCH', 'LEFT_SHOULDER_ROLL', 'LEFT_SHOULDER_YAW',
 #               'LEFT_ELBOW', 'LEFT_WRIST_YAW', 'LEFT_WRIST_PITCH', 'LEFT_WRIST_YAW_2' ]
-joint_ordering = [ ]
+joint_ordering =  ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
 ######################################################################################################
 
 
@@ -120,7 +120,7 @@ joint_ordering = [ ]
 #   ex1: ee_fixed_joints = ['RIGHT_HAND', 'LEFT_HAND']
 #   For example 2, using the UR5, this is a single chain robot, so it will only have a single end-effector joint
 #   ex2: ee_fixed_joints = ['ee_fixed_joint']
-ee_fixed_joints = [ ]
+ee_fixed_joints = [ 'ee_fixed_joint' ]
 ######################################################################################################
 
 
@@ -130,7 +130,7 @@ ee_fixed_joints = [ ]
 #   The configuration should be a single list of values for each joint's rotation (in radians) adhering
 #   to the joint order you specified in Step 3b
 #   ex: starting_config = [ 3.12769839, -0.03987385, -2.07729916, -1.03981438, -1.58652782, -1.5710159 ]
-starting_config = [ ]
+starting_config = [ 0.0, -1.5708, 1.5708, -1.5708, -1.5708, 0.0 ]
 ######################################################################################################
 
 
@@ -196,7 +196,19 @@ starting_config = [ ]
 # TODO: fill out this function, or leave it how it is for the default option
 from sensor_msgs.msg import JointState
 def joint_state_define(x):
-    return None
+    js = JointState()
+
+    js.name = ['shoulder_pan_joint', 'shoulder_lift_joint', 'elbow_joint', 'wrist_1_joint', 'wrist_2_joint', 'wrist_3_joint']
+    js.position = 6 * [0]
+    js.position[0] = x[0]
+    js.position[1] = x[1]
+    js.position[2] = x[2]
+    js.position[3] = x[3]
+    js.position[4] = x[4]
+    js.position[5] = x[5]
+    js.position = tuple(js.position)
+    
+    return js
 
 ######################################################################################################
 
@@ -260,7 +272,7 @@ def joint_state_define(x):
 #
 #   Please provide the name of the collision file that you have been filling out in the RelaxedIK/Config directory:
 #   ex: collision_file_name = 'collision.yaml'
-collision_file_name = ''
+collision_file_name = 'collision.yaml'
 ###########################################################################################################
 
 
@@ -298,7 +310,7 @@ collision_file_name = ''
 #   RelaxedIK/Config directory.
 #   Please provide the name of the file that you renamed your config file to
 #   ex: config_file_name = 'ur5.config'
-config_file_name = ''
+config_file_name = 'ur5.config'
 ######################################################################################################
 
 
